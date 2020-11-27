@@ -5,15 +5,46 @@
  */
 
 #include "miniature.h"
+#include "server/operations.h"
+#include "server/logger.h"
 
 int *
-soma_1_svc(numeros *argp, struct svc_req *rqstp)
+sum_1_svc(numbers_to_calculate *argp, struct svc_req *rqstp)
 {
-	static int  result;
+	static int result;
+	result = sum_operation(argp->value1, argp->value2);
+	logger("Realizada uma operação de soma com resultado tal");
+	return &result;
+}
 
-	/*
-	 * insert server code here
-	 */
+int *
+subtraction_1_svc(numbers_to_calculate *argp, struct svc_req *rqstp)
+{
+	static int result;
+	result = subtraction_operation(argp->value1, argp->value2);
+	return &result;
+}
 
+int *
+division_1_svc(numbers_to_calculate *argp, struct svc_req *rqstp)
+{
+	static int result;
+	result = division_operation(argp->value1, argp->value2);
+	return &result;
+}
+
+int *
+multiplication_1_svc(numbers_to_calculate *argp, struct svc_req *rqstp)
+{
+	static int result;
+	result = multiplication_operation(argp->value1, argp->value2);
+	return &result;
+}
+
+int *
+square_root_1_svc(square_root_number *argp, struct svc_req *rqstp)
+{
+	static int result;
+	result = square_root_operation(argp->value);
 	return &result;
 }
