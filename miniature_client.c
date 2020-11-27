@@ -4,44 +4,116 @@
  * as a guideline for developing your own functions.
  */
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "miniature.h"
 
-
-void
-soma_prog_1(char *host)
+void miniature_program_1(char *host, int values[], int operation)
 {
-	CLIENT *clnt;
-	int  *result_1;
-	numeros  soma_1_arg;
+	CLIENT *client;
+	int *result;
+	numbers_to_calculate sum_1_arg;
+	numbers_to_calculate subtraction_1_arg;
+	numbers_to_calculate division_1_arg;
+	numbers_to_calculate multiplication_1_arg;
+	square_root_number square_root_1_arg;
 
-#ifndef	DEBUG
-	clnt = clnt_create (host, SOMA_PROG, SOMA_VERS, "udp");
-	if (clnt == NULL) {
-		clnt_pcreateerror (host);
-		exit (1);
+#ifndef DEBUG
+	client = clnt_create(host, MINIATURE_PROGRAM, CALCULATOR_VERS, "udp");
+	if (client == NULL)
+	{
+		clnt_pcreateerror(host);
+		exit(1);
 	}
-#endif	/* DEBUG */
+#endif /* DEBUG */
 
-	result_1 = soma_1(&soma_1_arg, clnt);
-	if (result_1 == (int *) NULL) {
-		clnt_perror (clnt, "call failed");
+	switch (operation)
+	{
+	case 1:
+		sum_1_arg.value1 = values[0];
+		sum_1_arg.value2 = values[1];
+		result = sum_1(&sum_1_arg, client);
+		break;
+	case 2:
+		subtraction_1_arg.value1 = values[0];
+		subtraction_1_arg.value2 = values[1];
+		result = subtraction_1(&subtraction_1_arg, client);
+		break;
+	case 3:
+		division_1_arg.value1 = values[0];
+		division_1_arg.value2 = values[1];
+		result = division_1(&division_1_arg, client);
+		break;
+	case 4:
+		multiplication_1_arg.value1 = values[0];
+		multiplication_1_arg.value2 = values[1];
+		result = multiplication_1(&multiplication_1_arg, client);
+		break;
+	case 5:
+		square_root_1_arg.value = values[0];
+		result = square_root_1(&square_root_1_arg, client);
+	default:
+		printf("Nenhuma operação encontrada");
+		break;
 	}
-#ifndef	DEBUG
-	clnt_destroy (clnt);
-#endif	 /* DEBUG */
+
+	if (result == (int *)NULL)
+	{
+		clnt_perror(client, "call failed");
+	}
+	else
+	{
+		printf("O resultado da operação no servidor é %d\n\n", *result);
+	}
+
+#ifndef DEBUG
+	clnt_destroy(client);
+#endif /* DEBUG */
 }
 
-
-int
-main (int argc, char *argv[])
+int main(int argc, char *argv[])
 {
 	char *host;
+	int operation;
+	int values[2];
 
-	if (argc < 2) {
-		printf ("usage: %s server_host\n", argv[0]);
-		exit (1);
+	if (argc < 2)
+	{
+		printf("Para executar informe o IP do servidor com o qual deseja se conectar. Ex.: %s 0.0.0.0\n", argv[0]);
+		exit(1);
 	}
 	host = argv[1];
-	soma_prog_1 (host);
-exit (0);
+
+	do
+	{
+		system("clear");
+		printf("##################################\n");
+		printf("##### BEM VINDO AO MINIATURE #####\n");
+		printf("##################################\n\n");
+		printf("# Escolha uma das operações: \n\n");
+		printf("1. Soma \n");
+		printf("2. Subtração \n");
+		printf("3. Divisão \n");
+		printf("4. Multiplicação \n");
+		printf("5. Raíz Quadrada \n\n");
+		scanf("%d", &operation);
+	} while (operation < 1 || operation > 5);
+
+	if (operation == 5)
+	{
+		printf("# Agora digite o valor: ");
+		scanf("%d", &values[0]);
+	}
+	else
+	{
+		printf("# Agora digite o primeiro valor: ");
+		scanf("%d", &values[0]);
+		printf("# Agora digite o segundo valor: ");
+		scanf("%d", &values[1]);
+		system("reset");
+	}
+
+	miniature_program_1(host, values, operation);
+	
+	return 0;
 }
