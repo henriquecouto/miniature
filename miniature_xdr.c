@@ -6,13 +6,23 @@
 #include "miniature.h"
 
 bool_t
-xdr_numeros (XDR *xdrs, numeros *objp)
+xdr_numbers_to_calculate (XDR *xdrs, numbers_to_calculate *objp)
 {
 	register int32_t *buf;
 
-	 if (!xdr_int (xdrs, &objp->a))
+	 if (!xdr_int (xdrs, &objp->value1))
 		 return FALSE;
-	 if (!xdr_int (xdrs, &objp->b))
+	 if (!xdr_int (xdrs, &objp->value2))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_square_root_number (XDR *xdrs, square_root_number *objp)
+{
+	register int32_t *buf;
+
+	 if (!xdr_int (xdrs, &objp->value))
 		 return FALSE;
 	return TRUE;
 }

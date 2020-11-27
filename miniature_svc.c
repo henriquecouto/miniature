@@ -17,10 +17,14 @@
 #endif
 
 static void
-soma_prog_1(struct svc_req *rqstp, register SVCXPRT *transp)
+miniature_program_1(struct svc_req *rqstp, register SVCXPRT *transp)
 {
 	union {
-		numeros soma_1_arg;
+		numbers_to_calculate sum_1_arg;
+		numbers_to_calculate subtraction_1_arg;
+		numbers_to_calculate division_1_arg;
+		numbers_to_calculate multiplication_1_arg;
+		square_root_number square_root_1_arg;
 	} argument;
 	char *result;
 	xdrproc_t _xdr_argument, _xdr_result;
@@ -31,10 +35,34 @@ soma_prog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		(void) svc_sendreply (transp, (xdrproc_t) xdr_void, (char *)NULL);
 		return;
 
-	case soma:
-		_xdr_argument = (xdrproc_t) xdr_numeros;
+	case sum:
+		_xdr_argument = (xdrproc_t) xdr_numbers_to_calculate;
 		_xdr_result = (xdrproc_t) xdr_int;
-		local = (char *(*)(char *, struct svc_req *)) soma_1_svc;
+		local = (char *(*)(char *, struct svc_req *)) sum_1_svc;
+		break;
+
+	case subtraction:
+		_xdr_argument = (xdrproc_t) xdr_numbers_to_calculate;
+		_xdr_result = (xdrproc_t) xdr_int;
+		local = (char *(*)(char *, struct svc_req *)) subtraction_1_svc;
+		break;
+
+	case division:
+		_xdr_argument = (xdrproc_t) xdr_numbers_to_calculate;
+		_xdr_result = (xdrproc_t) xdr_int;
+		local = (char *(*)(char *, struct svc_req *)) division_1_svc;
+		break;
+
+	case multiplication:
+		_xdr_argument = (xdrproc_t) xdr_numbers_to_calculate;
+		_xdr_result = (xdrproc_t) xdr_int;
+		local = (char *(*)(char *, struct svc_req *)) multiplication_1_svc;
+		break;
+
+	case square_root:
+		_xdr_argument = (xdrproc_t) xdr_square_root_number;
+		_xdr_result = (xdrproc_t) xdr_int;
+		local = (char *(*)(char *, struct svc_req *)) square_root_1_svc;
 		break;
 
 	default:
@@ -62,15 +90,15 @@ main (int argc, char **argv)
 {
 	register SVCXPRT *transp;
 
-	pmap_unset (SOMA_PROG, SOMA_VERS);
+	pmap_unset (MINIATURE_PROGRAM, CALCULATOR_VERS);
 
 	transp = svcudp_create(RPC_ANYSOCK);
 	if (transp == NULL) {
 		fprintf (stderr, "%s", "cannot create udp service.");
 		exit(1);
 	}
-	if (!svc_register(transp, SOMA_PROG, SOMA_VERS, soma_prog_1, IPPROTO_UDP)) {
-		fprintf (stderr, "%s", "unable to register (SOMA_PROG, SOMA_VERS, udp).");
+	if (!svc_register(transp, MINIATURE_PROGRAM, CALCULATOR_VERS, miniature_program_1, IPPROTO_UDP)) {
+		fprintf (stderr, "%s", "unable to register (MINIATURE_PROGRAM, CALCULATOR_VERS, udp).");
 		exit(1);
 	}
 
@@ -79,8 +107,8 @@ main (int argc, char **argv)
 		fprintf (stderr, "%s", "cannot create tcp service.");
 		exit(1);
 	}
-	if (!svc_register(transp, SOMA_PROG, SOMA_VERS, soma_prog_1, IPPROTO_TCP)) {
-		fprintf (stderr, "%s", "unable to register (SOMA_PROG, SOMA_VERS, tcp).");
+	if (!svc_register(transp, MINIATURE_PROGRAM, CALCULATOR_VERS, miniature_program_1, IPPROTO_TCP)) {
+		fprintf (stderr, "%s", "unable to register (MINIATURE_PROGRAM, CALCULATOR_VERS, tcp).");
 		exit(1);
 	}
 

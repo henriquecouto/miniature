@@ -14,35 +14,66 @@ extern "C" {
 #endif
 
 
-struct numeros {
-	int a;
-	int b;
+struct numbers_to_calculate {
+	int value1;
+	int value2;
 };
-typedef struct numeros numeros;
+typedef struct numbers_to_calculate numbers_to_calculate;
 
-#define SOMA_PROG 0x20000001
-#define SOMA_VERS 1
+struct square_root_number {
+	int value;
+};
+typedef struct square_root_number square_root_number;
+
+#define MINIATURE_PROGRAM 0x20000001
+#define CALCULATOR_VERS 1
 
 #if defined(__STDC__) || defined(__cplusplus)
-#define soma 1
-extern  int * soma_1(numeros *, CLIENT *);
-extern  int * soma_1_svc(numeros *, struct svc_req *);
-extern int soma_prog_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
+#define sum 1
+extern  int * sum_1(numbers_to_calculate *, CLIENT *);
+extern  int * sum_1_svc(numbers_to_calculate *, struct svc_req *);
+#define subtraction 2
+extern  int * subtraction_1(numbers_to_calculate *, CLIENT *);
+extern  int * subtraction_1_svc(numbers_to_calculate *, struct svc_req *);
+#define division 3
+extern  int * division_1(numbers_to_calculate *, CLIENT *);
+extern  int * division_1_svc(numbers_to_calculate *, struct svc_req *);
+#define multiplication 4
+extern  int * multiplication_1(numbers_to_calculate *, CLIENT *);
+extern  int * multiplication_1_svc(numbers_to_calculate *, struct svc_req *);
+#define square_root 5
+extern  int * square_root_1(square_root_number *, CLIENT *);
+extern  int * square_root_1_svc(square_root_number *, struct svc_req *);
+extern int miniature_program_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
 
 #else /* K&R C */
-#define soma 1
-extern  int * soma_1();
-extern  int * soma_1_svc();
-extern int soma_prog_1_freeresult ();
+#define sum 1
+extern  int * sum_1();
+extern  int * sum_1_svc();
+#define subtraction 2
+extern  int * subtraction_1();
+extern  int * subtraction_1_svc();
+#define division 3
+extern  int * division_1();
+extern  int * division_1_svc();
+#define multiplication 4
+extern  int * multiplication_1();
+extern  int * multiplication_1_svc();
+#define square_root 5
+extern  int * square_root_1();
+extern  int * square_root_1_svc();
+extern int miniature_program_1_freeresult ();
 #endif /* K&R C */
 
 /* the xdr functions */
 
 #if defined(__STDC__) || defined(__cplusplus)
-extern  bool_t xdr_numeros (XDR *, numeros*);
+extern  bool_t xdr_numbers_to_calculate (XDR *, numbers_to_calculate*);
+extern  bool_t xdr_square_root_number (XDR *, square_root_number*);
 
 #else /* K&R C */
-extern bool_t xdr_numeros ();
+extern bool_t xdr_numbers_to_calculate ();
+extern bool_t xdr_square_root_number ();
 
 #endif /* K&R C */
 
