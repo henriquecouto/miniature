@@ -1,8 +1,40 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../usecases/calculator_usecase.h"
+#include "constants.h"
 
-void menu(char *host)
+void calculator_menu();
+void chat_menu();
+
+void menu()
+{
+    int operation;
+    do
+    {
+        system("clear");
+        printf("##################################\n");
+        printf("##### BEM VINDO AO MINIATURE #####\n");
+        printf("##################################\n\n");
+        printf("# Escolha uma das funcionalidades: \n\n");
+        printf("1. Chat \n");
+        printf("2. Calculadora \n");
+        scanf("%d", &operation);
+    } while (operation < 1 || operation > 2);
+
+    operation == 1
+        ? chat_menu()
+        : calculator_menu();
+}
+
+void chat_menu()
+{
+    system("clear");
+    printf("# Digite o seu nome: "); 
+    scanf("%s", username);
+    printf("%s", username);
+}
+
+void calculator_menu()
 {
     int operation;
     int values[2];
@@ -10,17 +42,22 @@ void menu(char *host)
     do
     {
         system("clear");
-        printf("##################################\n");
-        printf("##### BEM VINDO AO MINIATURE #####\n");
-        printf("##################################\n\n");
+        printf("# MINIATURE - CALCULATOR\n\n");
         printf("# Escolha uma das operações: \n\n");
         printf("1. Soma \n");
         printf("2. Subtração \n");
         printf("3. Divisão \n");
         printf("4. Multiplicação \n");
         printf("5. Raíz Quadrada \n\n");
+        printf("6. <- Voltar\n\n");
         scanf("%d", &operation);
-    } while (operation < 1 || operation > 5);
+    } while (operation < 1 || operation > 6);
+
+    if (operation == 6)
+    {
+        menu();
+        return;
+    }
 
     if (operation == 5)
     {

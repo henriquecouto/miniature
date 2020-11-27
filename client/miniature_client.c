@@ -6,10 +6,10 @@
 
 #include <stdio.h>
 #include "utils/menu.h"
+#include "utils/constants.h"
 
 int main(int argc, char *argv[])
 {
-	char *host;
 
 	if (argc < 2)
 	{
@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 	}
 
 	host = argv[1];
-	menu(host);
+	menu();
 	
 	return 0;
 }

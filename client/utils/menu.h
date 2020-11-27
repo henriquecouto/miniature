@@ -1,1 +1,1 @@
-void menu(char *host);
+void menu();
