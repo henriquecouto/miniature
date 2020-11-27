@@ -1,1 +1,1 @@
-void calculator_usecase(char *host, int values[], int operation);
+void calculator_usecase(int values[], int operation);

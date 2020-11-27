@@ -1,6 +1,7 @@
 #include "../../miniature.h"
+#include "../utils/constants.h"
 
-void calculator_usecase(char *host, int values[], int operation)
+void calculator_usecase(int values[], int operation)
 {
 	CLIENT *client;
 	int *result;

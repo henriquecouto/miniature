@@ -73,5 +73,5 @@ void calculator_menu()
         system("reset");
     }
 
-    calculator_usecase(host, values, operation);
+    calculator_usecase(values, operation);
 }
