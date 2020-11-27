@@ -4,9 +4,9 @@
  * as a guideline for developing your own functions.
  */
 
-#include "miniature.h"
-#include "server/operations.h"
-#include "server/logger.h"
+#include "../miniature.h"
+#include "utils/operations.h"
+#include "utils/logger.h"
 
 int *
 sum_1_svc(numbers_to_calculate *argp, struct svc_req *rqstp)
