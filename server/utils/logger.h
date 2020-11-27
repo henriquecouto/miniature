@@ -1,1 +1,1 @@
-void logger(char string[]);
+void logger(char *char_format, ...);
