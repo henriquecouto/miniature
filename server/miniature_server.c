@@ -8,43 +8,42 @@
 #include "utils/operations.h"
 #include "utils/logger.h"
 
-int *
-sum_1_svc(numbers_to_calculate *argp, struct svc_req *rqstp)
+int *sum_1_svc(numbers_to_calculate *argp, struct svc_req *rqstp)
 {
 	static int result;
 	result = sum_operation(argp->value1, argp->value2);
-	logger("Realizada uma operação de soma com resultado tal");
+	logger("Realizada uma operação de soma com resultado: %d", result);
 	return &result;
 }
 
-int *
-subtraction_1_svc(numbers_to_calculate *argp, struct svc_req *rqstp)
+int *subtraction_1_svc(numbers_to_calculate *argp, struct svc_req *rqstp)
 {
 	static int result;
 	result = subtraction_operation(argp->value1, argp->value2);
+	logger("Realizada uma operação de subtração com resultado: %d", result);
 	return &result;
 }
 
-int *
-division_1_svc(numbers_to_calculate *argp, struct svc_req *rqstp)
+int *division_1_svc(numbers_to_calculate *argp, struct svc_req *rqstp)
 {
 	static int result;
 	result = division_operation(argp->value1, argp->value2);
+	logger("Realizada uma operação de divisão com resultado: %d", result);
 	return &result;
 }
 
-int *
-multiplication_1_svc(numbers_to_calculate *argp, struct svc_req *rqstp)
+int *multiplication_1_svc(numbers_to_calculate *argp, struct svc_req *rqstp)
 {
 	static int result;
 	result = multiplication_operation(argp->value1, argp->value2);
+	logger("Realizada uma operação de multiplicação com resultado: %d", result);
 	return &result;
 }
 
-int *
-square_root_1_svc(square_root_number *argp, struct svc_req *rqstp)
+int *square_root_1_svc(square_root_number *argp, struct svc_req *rqstp)
 {
 	static int result;
 	result = square_root_operation(argp->value);
+	logger("Realizada uma operação de raíz quadrada com resultado: %d", result);
 	return &result;
 }
