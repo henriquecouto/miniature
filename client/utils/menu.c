@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../usecases/calculator_usecase.h"
+#include "../usecases/send_message_usecase.h"
 #include "constants.h"
 
 void calculator_menu();
@@ -28,10 +29,16 @@ void menu()
 
 void chat_menu()
 {
+    char message[120];
     system("clear");
-    printf("# Digite o seu nome: "); 
+    printf("# Digite o seu nome: ");
     scanf("%s", username);
-    printf("%s", username);
+    while (1)
+    {
+        printf("# Mensagem: ");
+        scanf("%s", message);
+        send_message_usecase(username, message);
+    }
 }
 
 void calculator_menu()

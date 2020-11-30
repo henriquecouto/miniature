@@ -26,3 +26,18 @@ xdr_square_root_number (XDR *xdrs, square_root_number *objp)
 		 return FALSE;
 	return TRUE;
 }
+
+bool_t
+xdr_chat_message (XDR *xdrs, chat_message *objp)
+{
+	register int32_t *buf;
+
+	int i;
+	 if (!xdr_vector (xdrs, (char *)objp->sender_username, 30,
+		sizeof (char), (xdrproc_t) xdr_char))
+		 return FALSE;
+	 if (!xdr_vector (xdrs, (char *)objp->message, 120,
+		sizeof (char), (xdrproc_t) xdr_char))
+		 return FALSE;
+	return TRUE;
+}

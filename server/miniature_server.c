@@ -7,6 +7,7 @@
 #include "../miniature.h"
 #include "utils/operations.h"
 #include "utils/logger.h"
+#include "usecases/send_message_usecase.h"
 
 int *sum_1_svc(numbers_to_calculate *argp, struct svc_req *rqstp)
 {
@@ -45,5 +46,20 @@ int *square_root_1_svc(square_root_number *argp, struct svc_req *rqstp)
 	static int result;
 	result = square_root_operation(argp->value);
 	logger("Realizada uma operação de raíz quadrada com resultado: %d", result);
+	return &result;
+}
+
+void *send_message_1_svc(chat_message *argp, struct svc_req *rqstp)
+{
+	static char result;
+	client_send_message(*argp);
+	logger("Nova mensagem enviada: %s disse \"%s\"", argp->sender_username, argp->message);
+	return (void *)&result;
+}
+
+chat_message *get_messages_1_svc(char *argp, struct svc_req *rqstp)
+{
+	static chat_message result;
+
 	return &result;
 }

@@ -25,6 +25,12 @@ struct square_root_number {
 };
 typedef struct square_root_number square_root_number;
 
+struct chat_message {
+	char sender_username[30];
+	char message[120];
+};
+typedef struct chat_message chat_message;
+
 #define MINIATURE_PROGRAM 0x20000001
 #define CALCULATOR_VERS 1
 
@@ -44,6 +50,12 @@ extern  int * multiplication_1_svc(numbers_to_calculate *, struct svc_req *);
 #define square_root 5
 extern  int * square_root_1(square_root_number *, CLIENT *);
 extern  int * square_root_1_svc(square_root_number *, struct svc_req *);
+#define send_message 6
+extern  void * send_message_1(chat_message *, CLIENT *);
+extern  void * send_message_1_svc(chat_message *, struct svc_req *);
+#define get_messages 7
+extern  chat_message * get_messages_1(char *, CLIENT *);
+extern  chat_message * get_messages_1_svc(char *, struct svc_req *);
 extern int miniature_program_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
 
 #else /* K&R C */
@@ -62,6 +74,12 @@ extern  int * multiplication_1_svc();
 #define square_root 5
 extern  int * square_root_1();
 extern  int * square_root_1_svc();
+#define send_message 6
+extern  void * send_message_1();
+extern  void * send_message_1_svc();
+#define get_messages 7
+extern  chat_message * get_messages_1();
+extern  chat_message * get_messages_1_svc();
 extern int miniature_program_1_freeresult ();
 #endif /* K&R C */
 
@@ -70,10 +88,12 @@ extern int miniature_program_1_freeresult ();
 #if defined(__STDC__) || defined(__cplusplus)
 extern  bool_t xdr_numbers_to_calculate (XDR *, numbers_to_calculate*);
 extern  bool_t xdr_square_root_number (XDR *, square_root_number*);
+extern  bool_t xdr_chat_message (XDR *, chat_message*);
 
 #else /* K&R C */
 extern bool_t xdr_numbers_to_calculate ();
 extern bool_t xdr_square_root_number ();
+extern bool_t xdr_chat_message ();
 
 #endif /* K&R C */
 

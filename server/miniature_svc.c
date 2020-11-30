@@ -25,6 +25,8 @@ miniature_program_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		numbers_to_calculate division_1_arg;
 		numbers_to_calculate multiplication_1_arg;
 		square_root_number square_root_1_arg;
+		chat_message send_message_1_arg;
+		char get_messages_1_arg;
 	} argument;
 	char *result;
 	xdrproc_t _xdr_argument, _xdr_result;
@@ -63,6 +65,18 @@ miniature_program_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		_xdr_argument = (xdrproc_t) xdr_square_root_number;
 		_xdr_result = (xdrproc_t) xdr_int;
 		local = (char *(*)(char *, struct svc_req *)) square_root_1_svc;
+		break;
+
+	case send_message:
+		_xdr_argument = (xdrproc_t) xdr_chat_message;
+		_xdr_result = (xdrproc_t) xdr_void;
+		local = (char *(*)(char *, struct svc_req *)) send_message_1_svc;
+		break;
+
+	case get_messages:
+		_xdr_argument = (xdrproc_t) xdr_char;
+		_xdr_result = (xdrproc_t) xdr_chat_message;
+		local = (char *(*)(char *, struct svc_req *)) get_messages_1_svc;
 		break;
 
 	default:

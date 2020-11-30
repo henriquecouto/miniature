@@ -7,6 +7,11 @@ struct square_root_number {
     int value;
 };
 
+struct chat_message {
+    char sender_username[30];
+    char message[120];
+};
+
 program MINIATURE_PROGRAM {
     version CALCULATOR_VERS {
         int sum(numbers_to_calculate) = 1;
@@ -14,5 +19,8 @@ program MINIATURE_PROGRAM {
         int division(numbers_to_calculate) = 3;
         int multiplication(numbers_to_calculate) = 4;
         int square_root(square_root_number) = 5;
+
+        void send_message(chat_message) = 6;
+        chat_message get_messages(char) = 7;
     } = 1;
 } = 0x20000001;
