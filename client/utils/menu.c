@@ -1,8 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <pthread.h>
+#include <unistd.h>
 #include "../usecases/calculator_usecase.h"
 #include "../usecases/send_message_usecase.h"
 #include "constants.h"
+
+pthread_t threads1, threads2;
 
 void calculator_menu();
 void chat_menu();
@@ -27,18 +31,43 @@ void menu()
         : calculator_menu();
 }
 
-void chat_menu()
+void *call_get_messages()
 {
-    char message[120];
-    system("clear");
-    printf("# Digite o seu nome: ");
-    scanf("%s", username);
     while (1)
     {
+        printf("get message\n\n");
+        sleep(10);
+    }
+}
+
+void *call_send_message()
+{
+    char message[120];
+    while (1)
+    {
+
         printf("# Mensagem: ");
         scanf("%s", message);
         send_message_usecase(username, message);
     }
+}
+
+void chat_menu()
+{
+    int iret1;
+    int iret2;
+    char message[120];
+
+    system("clear");
+    printf("# Digite o seu nome: ");
+    scanf("%s", username);
+
+    iret2 = pthread_create(&threads2, NULL, call_get_messages, NULL);
+    iret1 = pthread_create(&threads1, NULL, call_send_message, NULL);
+
+    pthread_join(threads2, NULL);
+    pthread_join(threads1, NULL);
+
 }
 
 void calculator_menu()

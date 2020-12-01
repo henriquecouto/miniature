@@ -1,0 +1,1 @@
+void *client_get_messages(int last_message_id, chat_message *payload);

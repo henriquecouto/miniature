@@ -100,7 +100,7 @@ send_message_1(chat_message *argp, CLIENT *clnt)
 }
 
 chat_message *
-get_messages_1(char *argp, CLIENT *clnt)
+get_messages_1(int *argp, CLIENT *clnt)
 {
 	static chat_message clnt_res;
 

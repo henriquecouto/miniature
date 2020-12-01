@@ -8,6 +8,7 @@
 #include "utils/operations.h"
 #include "utils/logger.h"
 #include "usecases/send_message_usecase.h"
+#include "usecases/get_messages_usecase.h"
 
 int *sum_1_svc(numbers_to_calculate *argp, struct svc_req *rqstp)
 {
@@ -57,9 +58,9 @@ void *send_message_1_svc(chat_message *argp, struct svc_req *rqstp)
 	return (void *)&result;
 }
 
-chat_message *get_messages_1_svc(char *argp, struct svc_req *rqstp)
+chat_message *get_messages_1_svc(int *argp, struct svc_req *rqstp)
 {
-	static chat_message result;
-
-	return &result;
+	static chat_message *result;
+	client_get_messages(*argp, result);
+	return result;
 }

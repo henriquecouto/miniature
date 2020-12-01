@@ -2,7 +2,7 @@ rm miniature_client
 rm miniature_server
 
 # compile client
-gcc miniature_xdr.c client/**.c client/**/**.c -o miniature_client -lm
+gcc miniature_xdr.c client/**.c client/**/**.c -o miniature_client -lm -pthread
 
 #compile server
 gcc miniature_xdr.c server/**.c server/**/**.c -o miniature_server -lm
