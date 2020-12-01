@@ -28,6 +28,7 @@ typedef struct square_root_number square_root_number;
 struct chat_message {
 	char sender_username[30];
 	char message[120];
+	int id;
 };
 typedef struct chat_message chat_message;
 

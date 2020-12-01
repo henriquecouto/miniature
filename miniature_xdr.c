@@ -39,5 +39,7 @@ xdr_chat_message (XDR *xdrs, chat_message *objp)
 	 if (!xdr_vector (xdrs, (char *)objp->message, 120,
 		sizeof (char), (xdrproc_t) xdr_char))
 		 return FALSE;
+	 if (!xdr_int (xdrs, &objp->id))
+		 return FALSE;
 	return TRUE;
 }
