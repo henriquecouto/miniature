@@ -5,7 +5,9 @@
 #include <form.h>
 #include "../usecases/calculator_usecase.h"
 #include "../usecases/send_message_usecase.h"
+#include "../usecases/get_messages_usecase.h"
 #include "constants.h"
+#include "../../miniature.h"
 
 pthread_t threads1, threads2;
 
@@ -32,29 +34,35 @@ void menu()
         : calculator_menu();
 }
 
-void *call_get_messages()
+void *chat_messages()
 {
+    chat_message *messages;
+
     while (1)
     {
-        printf("get message\n\n");
+        messages = get_messages_usecase(0);
+        for (int i = 0; i < 15; i++)
+        {
+            mvprintw(i + 1, 2, messages[i].sender_username);
+            mvprintw(i + 1, 36, messages[i].message);
+        }
         sleep(10);
     }
 }
 
-void chat_screen()
+void *chat_input()
 {
     FIELD *field[2];
     FORM *chat_form;
     int ch;
     char message[120];
 
-    initscr();
     start_color();
     cbreak();
     noecho();
     keypad(stdscr, TRUE);
 
-    field[0] = new_field(2, 60, 4, 19, 0, 0);
+    field[0] = new_field(2, 60, LINES - 4, 19, 0, 0);
     field[1] = NULL;
     set_field_back(field[0], A_UNDERLINE);
 
@@ -63,7 +71,7 @@ void chat_screen()
     refresh();
 
     set_current_field(chat_form, field[0]);
-    mvprintw(4, 2, "Nova mensagem: ");
+    mvprintw(LINES - 4, 2, "Nova mensagem: ");
     refresh();
 
     while ((ch = getch()) != KEY_F(1))
@@ -95,7 +103,6 @@ void chat_screen()
     unpost_form(chat_form);
     free_form(chat_form);
     free_field(field[0]);
-    endwin();
 }
 
 void chat_menu()
@@ -103,17 +110,17 @@ void chat_menu()
     int iret1;
     int iret2;
     char message[120];
-
     system("clear");
     printf("# Digite o seu nome: ");
     scanf("%s", username);
-    chat_screen();
 
-    // iret2 = pthread_create(&threads2, NULL, call_get_messages, NULL);
-    // iret1 = pthread_create(&threads1, NULL, call_send_message, NULL);
+    initscr();
+    iret2 = pthread_create(&threads2, NULL, chat_messages, NULL);
+    iret1 = pthread_create(&threads1, NULL, chat_input, NULL);
 
-    // pthread_join(threads2, NULL);
-    // pthread_join(threads1, NULL);
+    pthread_join(threads2, NULL);
+    pthread_join(threads1, NULL);
+    endwin();
 }
 
 void calculator_menu()

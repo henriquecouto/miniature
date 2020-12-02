@@ -102,11 +102,11 @@ send_message_1(chat_message *argp, CLIENT *clnt)
 chat_message *
 get_messages_1(int *argp, CLIENT *clnt)
 {
-	static chat_message clnt_res;
+static chat_message clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
 	if (clnt_call (clnt, get_messages,
-		(xdrproc_t) xdr_char, (caddr_t) argp,
+		(xdrproc_t) xdr_int, (caddr_t) argp,
 		(xdrproc_t) xdr_chat_message, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
 		return (NULL);

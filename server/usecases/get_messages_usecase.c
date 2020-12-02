@@ -4,6 +4,13 @@
 
 void *client_get_messages(int last_message_id, chat_message *payload)
 {
+
+    if (last_message_id == 0)
+    {
+        payload = messages;
+        return (void *)0;
+    }
+
     int index_last_message;
 
     printf("%d", last_message_id);
