@@ -2,12 +2,17 @@
 #include "../utils/constants.h"
 #include "../../miniature.h"
 
-void *client_get_messages(int last_message_id, chat_message *payload)
+void *client_get_messages(int last_message_id, chat_messages *payload)
 {
-
     if (last_message_id == 0)
     {
-        payload = messages;
+        for (int i = 0; i < messagesNumber; i++)
+        {
+            printf("entrou");
+            printf("%s", messages[i].message);
+            chat_messages result = {.messages = *messages};
+            payload = &result;
+        }
         return (void *)0;
     }
 
@@ -26,6 +31,6 @@ void *client_get_messages(int last_message_id, chat_message *payload)
     int count = index_last_message + 1;
     for (int i = index_last_message + 1; i < messagesNumber; i++)
     {
-        payload[count++] = messages[i];
+        payload->messages[count++] = messages[i];
     }
 }

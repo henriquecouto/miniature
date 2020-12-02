@@ -43,3 +43,15 @@ xdr_chat_message (XDR *xdrs, chat_message *objp)
 		 return FALSE;
 	return TRUE;
 }
+
+bool_t
+xdr_chat_messages (XDR *xdrs, chat_messages *objp)
+{
+	register int32_t *buf;
+
+	int i;
+	 if (!xdr_vector (xdrs, (char *)objp->messages, 30,
+		sizeof (chat_message), (xdrproc_t) xdr_chat_message))
+		 return FALSE;
+	return TRUE;
+}

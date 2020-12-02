@@ -1,2 +1,2 @@
 #include "../../miniature.h"
-chat_message *get_messages_usecase(int *last_message_id);
+chat_messages get_messages_usecase(int *last_message_id);

@@ -1,11 +1,11 @@
 #include "../../miniature.h"
 #include "../utils/constants.h"
 
-chat_message *get_messages_usecase(int last_message_id)
+chat_messages get_messages_usecase(int last_message_id)
 {
 
     CLIENT *client;
-    chat_message *result;
+    chat_messages *result;
     int get_messages_1_arg = last_message_id;
 
 #ifndef DEBUG
@@ -16,9 +16,9 @@ chat_message *get_messages_usecase(int last_message_id)
         exit(1);
     }
 #endif /* DEBUG */
-
+    printf("entrou aqui");
     result = get_messages_1(&get_messages_1_arg, client);
-    return result;
+    return *result;
 
 #ifndef DEBUG
     clnt_destroy(client);

@@ -74,8 +74,8 @@ miniature_program_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		break;
 
 	case get_messages:
-		_xdr_argument = (xdrproc_t) xdr_char;
-		_xdr_result = (xdrproc_t) xdr_chat_message;
+		_xdr_argument = (xdrproc_t) xdr_int;
+		_xdr_result = (xdrproc_t) xdr_chat_messages;
 		local = (char *(*)(char *, struct svc_req *)) get_messages_1_svc;
 		break;
 

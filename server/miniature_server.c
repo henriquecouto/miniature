@@ -58,9 +58,9 @@ void *send_message_1_svc(chat_message *argp, struct svc_req *rqstp)
 	return (void *)&result;
 }
 
-chat_message *get_messages_1_svc(int *argp, struct svc_req *rqstp)
+chat_messages *get_messages_1_svc(int *argp, struct svc_req *rqstp)
 {
-	static chat_message *result;
+	static chat_messages *result;
 	client_get_messages(*argp, result);
 	return result;
 }

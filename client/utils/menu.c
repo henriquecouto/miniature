@@ -6,7 +6,7 @@
 #include "../usecases/calculator_usecase.h"
 #include "../usecases/send_message_usecase.h"
 #include "../usecases/get_messages_usecase.h"
-#include "constants.h"
+#include "./constants.h"
 #include "../../miniature.h"
 
 pthread_t threads1, threads2;
@@ -34,33 +34,36 @@ void menu()
         : calculator_menu();
 }
 
-void *chat_messages()
+void *component_chat_messages()
 {
-    chat_message *messages;
+    chat_messages messages;
+
+    // chat_message message = {.message="aff", .sender_username="aff"};
+
+    // messages.messages[0] = message;
+    // messages.messages[1] = message;
+    // messages.messages[2] = message;
+    // messages.messages[3] = message;
 
     while (1)
     {
         messages = get_messages_usecase(0);
         for (int i = 0; i < 15; i++)
         {
-            mvprintw(i + 1, 2, messages[i].sender_username);
-            mvprintw(i + 1, 36, messages[i].message);
+            mvprintw(i + 1, 2, messages.messages[i].sender_username);
+            mvprintw(i + 1, 36, messages.messages[i].message);
+            refresh();
         }
         sleep(10);
     }
 }
 
-void *chat_input()
+void *component_chat_input()
 {
     FIELD *field[2];
     FORM *chat_form;
     int ch;
     char message[120];
-
-    start_color();
-    cbreak();
-    noecho();
-    keypad(stdscr, TRUE);
 
     field[0] = new_field(2, 60, LINES - 4, 19, 0, 0);
     field[1] = NULL;
@@ -115,11 +118,15 @@ void chat_menu()
     scanf("%s", username);
 
     initscr();
-    iret2 = pthread_create(&threads2, NULL, chat_messages, NULL);
-    iret1 = pthread_create(&threads1, NULL, chat_input, NULL);
+    start_color();
+    cbreak();
+    noecho();
+    keypad(stdscr, TRUE);
+    iret1 = pthread_create(&threads1, NULL, component_chat_input, NULL);
+    iret2 = pthread_create(&threads2, NULL, component_chat_messages, NULL);
 
-    pthread_join(threads2, NULL);
     pthread_join(threads1, NULL);
+    pthread_join(threads2, NULL);
     endwin();
 }
 
