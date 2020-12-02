@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <form.h>
 #include "../usecases/calculator_usecase.h"
 #include "../usecases/send_message_usecase.h"
 #include "constants.h"
@@ -40,16 +41,61 @@ void *call_get_messages()
     }
 }
 
-void *call_send_message()
+void chat_screen()
 {
+    FIELD *field[2];
+    FORM *chat_form;
+    int ch;
     char message[120];
-    while (1)
-    {
 
-        printf("# Mensagem: ");
-        scanf("%s", message);
-        send_message_usecase(username, message);
+    initscr();
+    start_color();
+    cbreak();
+    noecho();
+    keypad(stdscr, TRUE);
+
+    field[0] = new_field(2, 60, 4, 19, 0, 0);
+    field[1] = NULL;
+    set_field_back(field[0], A_UNDERLINE);
+
+    chat_form = new_form(field);
+    post_form(chat_form);
+    refresh();
+
+    set_current_field(chat_form, field[0]);
+    mvprintw(4, 2, "Nova mensagem: ");
+    refresh();
+
+    while ((ch = getch()) != KEY_F(1))
+    {
+        int breakWhile = 0;
+        switch (ch)
+        {
+        case '\n':
+            form_driver(chat_form, REQ_NEXT_FIELD);
+            snprintf(message, 120, "%s", field_buffer(field[0], 0));
+            set_field_buffer(field[0], 0, "");
+            form_driver(chat_form, REQ_PREV_FIELD);
+            send_message_usecase(username, message);
+            break;
+        case 27:
+            breakWhile = 1;
+            break;
+        default:
+            form_driver(chat_form, ch);
+            break;
+        }
+
+        if (breakWhile == 1)
+        {
+            break;
+        }
     }
+
+    unpost_form(chat_form);
+    free_form(chat_form);
+    free_field(field[0]);
+    endwin();
 }
 
 void chat_menu()
@@ -61,13 +107,13 @@ void chat_menu()
     system("clear");
     printf("# Digite o seu nome: ");
     scanf("%s", username);
+    chat_screen();
 
-    iret2 = pthread_create(&threads2, NULL, call_get_messages, NULL);
-    iret1 = pthread_create(&threads1, NULL, call_send_message, NULL);
+    // iret2 = pthread_create(&threads2, NULL, call_get_messages, NULL);
+    // iret1 = pthread_create(&threads1, NULL, call_send_message, NULL);
 
-    pthread_join(threads2, NULL);
-    pthread_join(threads1, NULL);
-
+    // pthread_join(threads2, NULL);
+    // pthread_join(threads1, NULL);
 }
 
 void calculator_menu()
