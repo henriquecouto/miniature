@@ -45,6 +45,7 @@ void calculator_usecase(int values[], int operation)
 	case 5:
 		square_root_1_arg.value = values[0];
 		result = square_root_1(&square_root_1_arg, client);
+		break;
 	default:
 		printf("Nenhuma operação encontrada");
 		break;
